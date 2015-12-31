@@ -1,1 +1,1 @@
-web: gunicorn carl:app --log-file=-
+web: python runserver.py
