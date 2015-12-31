@@ -1,0 +1,54 @@
+{%- extends "layout.html" %}
+
+{# Loads some of the macros included with Flask-Bootstrap. We are using the
+utils module here to automatically render Flask's flashed messages in a
+bootstrap friendly manner #}
+{% import "bootstrap/utils.html" as utils %}
+
+
+{# Inside the ``content`` is where you should place most of your own stuff.
+This will keep scripts at the page end and a navbar you add on later
+intact. #}
+{% block content %}
+<div class="container">
+    {%- with messages = get_flashed_messages(with_categories=True) %}
+    {%- if messages %}
+    <div class="row">
+        <div class="col-md-12">
+            {{utils.flashed_messages(messages)}}
+        </div>
+    </div>
+    {%- endif %}
+    {%- endwith %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Carl: Recipes</h1>
+        </div>
+        <div class="col-md-12">
+            <table class="col-md-12">
+                {% for recipe in recipes %}
+                <tr>
+                    <td class="col-md-4"> {{ recipe.title }}</td>
+                    <td class="col-md-8">{{ recipe.description|safe }}</td>
+                    <td class="col-md-8">{{ recipe.id }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <hr class="col-md-12">
+        {% if session.logged_in %}
+        <div class="col-md-12">
+            <form action="{{ url_for('add_recipe') }}" method=post class=add-entry>
+                <dl>
+                    <dt>Title:
+                    <dd><input type=text size=30 name=title>
+                    <dt>Text:
+                    <dd><textarea name=text rows=5 cols=40></textarea>
+                    <dd><input type=submit value=Save>
+                </dl>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{%- endblock %}

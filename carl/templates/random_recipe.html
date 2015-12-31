@@ -1,0 +1,30 @@
+{%- extends "layout.html" %}
+
+{# Loads some of the macros included with Flask-Bootstrap. We are using the
+utils module here to automatically render Flask's flashed messages in a
+bootstrap friendly manner #}
+{% import "bootstrap/utils.html" as utils %}
+
+
+{# Inside the ``content`` is where you should place most of your own stuff.
+This will keep scripts at the page end and a navbar you add on later
+intact. #}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if recipe %}
+            <h1>{{ recipe.title }}</h1>
+            {% else %}
+            <h1>Ist mir egal</h1>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            Nö
+        </div>
+        <div class="col-md-6">
+            Bla
+        </div>
+    </div>
+</div>
+{%- endblock %}
