@@ -18,10 +18,14 @@
 {# Finally, round things out with navigation #}
 {% block navbar %}
 <div class="navbar navbar-fixed-top">
-    {% if not session.logged_in %}
-    <a href="{{ url_for('login') }}">log in</a>
-    {% else %}
-    <a href="{{ url_for('logout') }}">log out</a>
-    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if not session.logged_in %}
+            <a href="{{ url_for('login') }}">log in</a>
+            {% else %}
+            <a href="{{ url_for('logout') }}">log out</a>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}

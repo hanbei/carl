@@ -23,9 +23,9 @@ def num_recipes(db):
     return len(db_cursor.fetchall())
 
 
-def get_recipes(db):
+def list_recipes(db):
     db_cursor = db.cursor()
-    db_cursor.execute('select id, title, description from recipes order by id desc')
+    db_cursor.execute('select id, title, description from recipes order by id')
     recipes = [Recipe(title=row[1], description=row[2], id=row[0]) for row in db_cursor.fetchall()]
     db_cursor.close()
     return recipes
