@@ -56,7 +56,7 @@ def logout():
 @app.before_request
 def before_request():
     db_url = app.config['DATABASE_URL']
-    app.logger.info("Connecting to" + str(db_url))
+    app.logger.info("Connecting to " + str(db_url))
     g.db = db.connect(db_url)
 
 

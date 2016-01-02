@@ -12,8 +12,9 @@ PASSWORD = 'hunger'
 
 app = Flask(__name__)
 Bootstrap(app)
-
 app.config.from_object(__name__)
-#app.config.from_envvar('DATABASE_URL')
+
+from carl.navigation import nav
+nav.init_app(app)
 
 import carl.views
