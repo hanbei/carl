@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import random
 
 import carl.db as db
@@ -16,9 +17,9 @@ def random_recipe():
 
 
 @app.route('/list')
-def show_recipes():
-    recipes = db.get_recipes(g.db)
-    return render_template('show_recipes.html', recipes=recipes)
+def list_recipes():
+    recipes = db.list_recipes(g.db)
+    return render_template('list_recipes.html', recipes=recipes)
 
 
 @app.route('/add_recipe', methods=['POST'])
@@ -27,7 +28,7 @@ def add_recipe():
         abort(401)
     db.add_recipe(g.db, Recipe(request.form['title'], request.form['text']))
     flash('New entry was successfully posted')
-    return redirect(url_for('show_recipes'))
+    return redirect(url_for('list_recipes'))
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -41,7 +42,7 @@ def login():
         else:
             session['logged_in'] = True
             flash('You were logged in')
-            return redirect(url_for('show_recipes'))
+            return redirect(url_for('list_recipes'))
     return render_template('login.html', error=error)
 
 
@@ -49,7 +50,7 @@ def login():
 def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
-    return redirect(url_for('show_recipes'))
+    return redirect(url_for('list_recipes'))
 
 
 @app.before_request
