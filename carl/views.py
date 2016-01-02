@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import random
 
 import carl.db as db
