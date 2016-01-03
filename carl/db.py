@@ -17,10 +17,10 @@ def init_db(app):
     db.close()
 
 
-def num_recipes(db):
-    db_cursor = db.cursor()
-    db_cursor.execute('select * from recipes')
-    return len(db_cursor.fetchall())
+# def num_recipes(db):
+#     db_cursor = db.cursor()
+#     db_cursor.execute('select * from recipes')
+#     return len(db_cursor.fetchall())
 
 
 def list_recipes(db):
@@ -38,11 +38,33 @@ def add_recipe(db, recipe):
     db_cursor.close()
 
 
+def update_recipe(db, recipe):
+    db_cursor = db.cursor()
+    db_cursor.execute('update recipes set title=%s, description=%s where id=%s',
+                      [recipe.title, recipe._description, recipe.id])
+    db.commit()
+    db_cursor.close()
+    return recipe
+
+
 def get_recipe(db, id):
     db_cursor = db.cursor()
     db_cursor.execute('select id, title, description from recipes where id=%s', [id])
     recipe = [Recipe(title=row[1], description=row[2], id=row[0]) for row in db_cursor.fetchall()]
     db_cursor.close()
+    if len(recipe) > 0:
+        return recipe[0]
+    else:
+        return None
+
+
+def delete_recipe(db, id):
+    db_cursor = db.cursor()
+    db_cursor.execute('delete from recipes where id=%s RETURNING *', [id])
+    recipe = [Recipe(title=row[1], description=row[2], id=row[0]) for row in db_cursor.fetchall()]
+    db.commit()
+    db_cursor.close()
+
     if len(recipe) > 0:
         return recipe[0]
     else:

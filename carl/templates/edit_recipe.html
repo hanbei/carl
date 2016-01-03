@@ -1,0 +1,29 @@
+{%- extends "layout.html" %}
+
+{# Loads some of the macros included with Flask-Bootstrap. We are using the
+utils module here to automatically render Flask's flashed messages in a
+bootstrap friendly manner #}
+{% import "bootstrap/utils.html" as utils %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="{{url_for('update_recipe',id=recipe.id)}}">
+                <div class="form-group">
+                    <label for="titleInput">Title:</label>
+                    <input type="text" class="form-control" id="titleInput"
+                           value="{{recipe.title.decode('utf-8')}}" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="descriptionInput">Description</label>
+                    <textarea rows="5" class="form-control" id="descriptionInput"
+                              placeholder="{{recipe.description.decode('utf-8')}}" name="description">{{recipe.description.decode('utf-8')}}</textarea>
+                </div>
+                <button type="submit" class="btn btn-default">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{%- endblock %}
