@@ -26,6 +26,7 @@ def list_recipes():
 def add_recipe():
     if not session.get('logged_in'):
         abort(401)
+
     db.add_recipe(g.db, Recipe(request.form['title'], request.form['text']))
     flash('New entry was successfully added')
     return redirect(url_for('list_recipes'))
@@ -39,6 +40,9 @@ def get_recipe(id):
 
 @app.route('/recipe/<id>', methods=['POST'])
 def update_recipe(id):
+    if not session.get('logged_in'):
+        abort(401)
+
     recipe = Recipe(request.form['title'], request.form['description'], id)
     db.update_recipe(g.db, recipe)
     return redirect(url_for('list_recipes'))
@@ -46,6 +50,9 @@ def update_recipe(id):
 
 @app.route('/recipe/<id>/edit', methods=['GET'])
 def edit_recipe(id):
+    if not session.get('logged_in'):
+        abort(401)
+
     recipe = db.get_recipe(g.db, id)
     return render_template('edit_recipe.html', recipe=recipe)
 
@@ -54,7 +61,7 @@ def edit_recipe(id):
 
 @app.route('/recipe/<id>', methods=['DELETE'])
 def delete_recipe(id):
-    if not session.get('logged_in'):
+    if not session.get('lo gged_in'):
         abort(401)
 
     recipe = db.delete_recipe(g.db, id)
