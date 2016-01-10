@@ -1,26 +1,10 @@
 # -*- coding: utf-8 -*-
 import psycopg2
+from carl import db
 
 
 def connect(connectString):
     return psycopg2.connect(connectString)
-
-
-def init_db(app):
-    db = connect(app.config['DATABASE_URL'])
-    cursor = db.cursor()
-    cursor.execute('drop table if exists recipes')
-    cursor.execute(
-            'create table recipes (id serial primary key, title text not null, description text not null)')
-    db.commit()
-    cursor.close()
-    db.close()
-
-
-# def num_recipes(db):
-#     db_cursor = db.cursor()
-#     db_cursor.execute('select * from recipes')
-#     return len(db_cursor.fetchall())
 
 
 def list_recipes(db):
@@ -88,3 +72,16 @@ class Recipe(object):
     @property
     def description(self):
         return self._description
+
+
+class Recipe2(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(120), unique=True)
+
+    def __init__(self, title, description):
+        self._title = title
+        self._description = description
+
+    def __repr__(self):
+        return '<Recipe %r>' % self.title
